@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexander Magbitang - Full-Stack Developer</title>
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+    <style>
+        /* --- ORIGINAL MINIMALIST COLOR PALETTE --- */
+        :root {
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --text-main: #111111;
+            --text-muted: #666666;
+            --border: #eaeaea;
+            --accent: #000000;
+            --accent-hover: #333333;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* --- CSS LOAD ANIMATIONS --- */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-load { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .delay-4 { animation-delay: 0.4s; opacity: 0; }
+        .delay-5 { animation-delay: 0.5s; opacity: 0; }
+        .delay-6 { animation-delay: 0.6s; opacity: 0; }
+
+        /* --- STICKY NAVBAR --- */
+        nav {
+            position: fixed; top: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            display: flex; justify-content: center;
+        }
+        .nav-content {
+            width: 100%; max-width: 1000px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px;
+        }
+        .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; }
+        .nav-links { display: flex; gap: 20px; flex-wrap: wrap; justify-content: flex-end; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        .container { max-width: 1000px; margin: auto; padding: 120px 20px 60px 20px; }
+
+        /* --- MODERN HERO SECTION --- */
+        .hero {
+            display: flex; align-items: center; justify-content: space-between;
+            min-height: 65vh; gap: 40px; margin-bottom: 80px;
+        }
+        .hero-text { flex: 1; max-width: 600px; }
+        .hero-text h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin: 0 0 20px 0; }
+        .hero-text h2 { font-size: 1.25rem; color: var(--text-muted); font-weight: 400; margin: 0 0 30px 0; }
+        
+        .social-links { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .social-links a {
+            padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            transition: all 0.2s ease; display: inline-block;
+        }
+        .btn-primary { background: var(--accent); color: white; border: 1px solid var(--accent); }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-outline { border: 1px solid var(--border); color: var(--text-main); background: var(--surface); }
+        .btn-outline:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+        .profile-wrapper { position: relative; }
+        .profile-image {
+            width: 280px; height: 280px; object-fit: cover; border-radius: 50%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+        }
+
+        /* --- SECTIONS & GRIDS --- */
+        .section-title { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px; display: inline-block;}
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; margin-bottom: 80px; }
+
+        .card {
+            background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+            padding: 24px; transition: all 0.3s ease; text-decoration: none; color: inherit;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .card:hover { border-color: var(--accent); box-shadow: 0 15px 30px rgba(0,0,0,0.06); transform: translateY(-4px); }
+        
+        .card h3 { margin: 0 0 10px 0; font-size: 1.2rem; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.5; }
+
+        /* --- LIGHTWEIGHT IMAGE SLIDER FOR CARDS --- */
+        .slider-container {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            gap: 12px; padding-bottom: 12px; margin-bottom: 5px;
+            scrollbar-width: thin; scrollbar-color: #cccccc transparent;
+        }
+        .slider-container::-webkit-scrollbar { height: 6px; }
+        .slider-container::-webkit-scrollbar-thumb { background: #cccccc; border-radius: 3px; }
+        .slider-container::-webkit-scrollbar-track { background: transparent; }
+
+        /* Tappable Image Links */
+        .slider-img-link {
+            scroll-snap-align: center; flex: 0 0 100%; display: block; height: 220px; text-decoration: none;
+        }
+        .slider-img-link img {
+            width: 100%; height: 100%; object-fit: cover; border-radius: 8px; border: 1px solid var(--border);
+            background: #f8f9fa; transition: all 0.2s ease;
+        }
+        .slider-img-link:hover img { border-color: var(--accent); opacity: 0.85; }
+        
+        .slider-hint { font-size: 0.75rem; color: #999; text-align: center; margin-top: -5px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;}
+
+        /* --- SKILLS & HOBBIES SECTION --- */
+        .skills-wrapper { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 80px; }
+        .skill-tag { 
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 18px; border: 1px solid var(--border); border-radius: 30px; 
+            font-size: 0.9rem; font-weight: 600; color: var(--text-main); 
+            background: var(--surface); transition: all 0.2s; cursor: default;
+        }
+        .skill-tag i { font-size: 1.2rem; }
+        .skill-tag:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        /* --- EXPERIENCE TIMELINE --- */
+        .timeline { border-left: 2px solid var(--border); padding-left: 30px; margin-left: 10px; margin-bottom: 80px;}
+        .timeline-item { position: relative; margin-bottom: 50px; cursor: default; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -37px; top: 6px; width: 12px; height: 12px;
+            background: var(--surface); border: 2px solid var(--accent); border-radius: 50%;
+        }
+        
+        .experience-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 10px; }
+        .experience-role { font-size: 1.3rem; font-weight: 800; margin: 0; }
+        .experience-date { color: var(--text-muted); font-size: 0.85rem; font-weight: 600; background: #f0f0f0; padding: 4px 12px; border-radius: 20px; }
+        .experience-company { color: var(--text-muted); font-size: 1rem; font-weight: 500; margin: 5px 0 15px 0; text-transform: uppercase; letter-spacing: 0.5px;}
+        .experience-details { padding-left: 20px; color: var(--text-muted); margin: 0 0 20px 0; font-size: 0.95rem; }
+        .experience-details li { margin-bottom: 8px; }
+        .timeline-item .slider-img-link { height: 180px; flex: 0 0 80%; } 
+
+        /* --- EXTRACURRICULAR SECTION --- */
+        .extra-card { margin-bottom: 24px; padding: 20px; border-left: 4px solid var(--accent); background: #fdfdfd; border-radius: 0 8px 8px 0;}
+        .extra-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 5px 0; }
+        .extra-desc { font-size: 0.95rem; color: var(--text-muted); margin: 0; }
+
+        /* --- CSS-ONLY FILTERING --- */
+        input[type="radio"].cert-radio { display: none; }
+        .filter-labels { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .filter-label {
+            border: 1px solid var(--border); padding: 8px 16px; border-radius: 20px;
+            cursor: pointer; font-size: 0.9rem; font-weight: 500; color: var(--text-muted);
+            transition: all 0.2s; user-select: none;
+        }
+        .filter-label:hover { border-color: var(--accent); color: var(--accent); }
+
+        #filter-all:checked ~ .filter-labels label[for="filter-all"],
+        #filter-dev:checked ~ .filter-labels label[for="filter-dev"],
+        #filter-net:checked ~ .filter-labels label[for="filter-net"],
+        #filter-design:checked ~ .filter-labels label[for="filter-design"],
+        #filter-it:checked ~ .filter-labels label[for="filter-it"] {
+            background: var(--accent); color: white; border-color: var(--accent);
+        }
+
+        #filter-dev:checked ~ .grid .cert-item:not(.dev),
+        #filter-net:checked ~ .grid .cert-item:not(.net),
+        #filter-design:checked ~ .grid .cert-item:not(.design),
+        #filter-it:checked ~ .grid .cert-item:not(.it) { display: none; }
+
+        /* --- STANDARD MODALS (Resumes & Certs) --- */
+        .modal {
+            opacity: 0; visibility: hidden;
+            position: fixed; z-index: 1000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .modal:target { opacity: 1; visibility: visible; }
+        .modal-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: default; }
+
+        .modal-content {
+            position: relative; width: 90%; max-width: 900px; height: 85vh;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 40px 15px 15px 15px; box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            z-index: 1001; display: flex; flex-direction: column;
+        }
+
+        .close-btn {
+            position: absolute; top: 10px; right: 20px;
+            color: var(--text-muted); font-size: 32px; font-weight: normal;
+            text-decoration: none; transition: color 0.2s ease; line-height: 1;
+        }
+        .close-btn:hover { color: var(--accent); }
+
+        .cert-frame { width: 100%; flex-grow: 1; border: none; border-radius: 8px; background: #ffffff; }
+        .cert-image-fit { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-right: 30px; }
+
+        /* --- "GOOGLE DRIVE" STYLE FULLSCREEN GALLERY MODALS --- */
+        .gallery-modal-content {
+            position: relative; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); border: none; border-radius: 0;
+            padding: 0; z-index: 1001; display: flex; flex-direction: column;
+        }
+        .gallery-modal-content .close-btn {
+            color: #ffffff; top: 15px; right: 25px; font-size: 40px; z-index: 10002;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .gallery-modal-content .close-btn:hover { color: #ff4444; }
+        .gd-slider {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            width: 100%; height: 100%; scroll-behavior: smooth;
+        }
+        .gd-slide {
+            scroll-snap-align: center; flex: 0 0 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            padding: 40px 20px; box-sizing: border-box;
+        }
+        .gd-slide img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            border-radius: 4px; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        footer { border-top: 1px solid var(--border); padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-top: 40px; }
+
+        @media (max-width: 768px) {
+            .hero { flex-direction: column-reverse; text-align: center; }
+            .social-links { justify-content: center; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-content">
+        <div class="logo">Alexander Magbitang</div>
+        <div class="nav-links">
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#experience">Experience</a>
+            <a href="#certifications">Certifications</a>
+            <a href="#extracurricular">Activities</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    
+    <section class="hero animate-load">
+        <div class="hero-text">
+            <h1>Hi, I'm Alexander.</h1>
+            <h2>Full-Stack Web Developer bridging the gap between application logic and IT infrastructure.</h2>
+            <div class="social-links">
+                <a href="#projects" class="btn-primary">View Projects</a>
+                <a href="#modal-resume" class="btn-outline">View Resume</a>
+                <a href="https://github.com/XELAAAhehe" target="_blank" class="btn-outline"><i class="devicon-github-original" style="color: var(--accent);"></i> GitHub</a>
+                <a href="mailto:magbitangalex257@gmail.com" class="btn-outline">Email Me</a>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">
+                Based in San Quintin, Pangasinan. Expecting BSIT Graduation in October 2026.
+            </p>
+        </div>
+        <div class="profile-wrapper">
+            <img src="prof.png" alt="Alexander Magbitang" class="profile-image">
+        </div>
+    </section>
+
+    <section id="skills" class="animate-load delay-1" style="padding-top: 40px;">
+        <h2 class="section-title">Technical Profile</h2>
+        
+        <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 15px; margin-top: 0;">Primary Stack & Tools</h3>
+        <div class="skills-wrapper" style="margin-bottom: 35px;">
+            <div class="skill-tag"><i class="devicon-php-plain colored"></i> PHP</div>
+            <div class="skill-tag"><i class="devicon-laravel-plain colored"></i> Laravel</div>
+            <div class="skill-tag"><i class="devicon-codeigniter-plain colored"></i> CodeIgniter 4</div>
+            <div class="skill-tag"><i class="devicon-mysql-plain colored"></i> MySQL / SQL</div>
+            <div class="skill-tag"><i class="devicon-html5-plain colored"></i> HTML5 & CSS3</div>
+            <div class="skill-tag"><i class="devicon-javascript-plain colored"></i> JavaScript</div>
+            <div class="skill-tag"><i class="devicon-jquery-plain colored"></i> jQuery</div>
+            <div class="skill-tag"><i class="devicon-bootstrap-plain colored"></i> Bootstrap</div>
+            <div class="skill-tag"><i class="devicon-git-plain colored"></i> Git / GitHub</div>
+            <div class="skill-tag"><i class="devicon-apache-plain colored"></i> XAMPP</div>
+            <div class="skill-tag"><i class="devicon-vscode-plain colored"></i> VS Code</div>
+        </div>
+
+        <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 15px;">Familiar With & Mobile</h3>
+        <div class="skills-wrapper" style="margin-bottom: 0;">
+            <div class="skill-tag"><i class="devicon-python-plain colored"></i> Python (Inter)</div>
+            <div class="skill-tag"><i class="devicon-java-plain colored"></i> Java (Basic)</div>
+            <div class="skill-tag"><i class="devicon-cplusplus-plain colored"></i> C++ (Basic)</div>
+            <div class="skill-tag"><i class="devicon-android-plain colored"></i> Android Studio</div>
+            <div class="skill-tag"><i class="devicon-xml-plain colored"></i> XML Layouts</div>
+        </div>
+    </section>
+
+    <section id="projects" class="animate-load delay-2" style="padding-top: 40px;">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="grid">
+            
+            <div class="card">
+                <div class="slider-container">
+                    <a href="#gallery-junkshop" class="slider-img-link"><img src="junkshop/dashboard.png" loading="lazy" alt="Dashboard"></a>
+                    <a href="#gallery-junkshop" class="slider-img-link"><img src="junkshop/inventory.png" loading="lazy" alt="Inventory"></a>
+                    <a href="#gallery-junkshop" class="slider-img-link"><img src="junkshop/scraps.png" loading="lazy" alt="Scraps"></a>
+                    <a href="#gallery-junkshop" class="slider-img-link"><img src="junkshop/transaction.png" loading="lazy" alt="Transaction"></a>
+                    <a href="#gallery-junkshop" class="slider-img-link"><img src="junkshop/buy.png" loading="lazy" alt="Buy"></a>
+                    <a href="#gallery-junkshop" class="slider-img-link"><img src="junkshop/sell.png" loading="lazy" alt="Sell"></a>
+                    <a href="#gallery-junkshop" class="slider-img-link"><img src="junkshop/report.png" loading="lazy" alt="Report"></a>
+                    <a href="#gallery-junkshop" class="slider-img-link"><img src="junkshop/user_management.png" loading="lazy" alt="User Management"></a>
+                    <a href="#gallery-junkshop" class="slider-img-link"><img src="junkshop/sidebar.png" loading="lazy" alt="Sidebar"></a>
+                    <a href="#gallery-junkshop" class="slider-img-link"><img src="junkshop/login.png" loading="lazy" alt="Login"></a>
+                </div>
+                <p class="slider-hint">Tap any image to view gallery</p>
+
+                <div>
+                    <h3>Junkshop Management System</h3>
+                    <p>Automated inventory and sales tracking platform designed to digitize local business records. Built with a secure authentication system featuring multi-role access for staff and administrators.</p>
+                </div>
+                <p style="margin-top: 20px; font-weight: 600; font-size: 0.8rem; color: var(--accent);">PHP • MySQL • HTML/CSS</p>
+                
+                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="#" class="btn-outline" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; text-decoration: none;"><i class="devicon-github-original" style="color: var(--accent);"></i> Repository</a>
+                    <a href="https://junkshop-alex.infinityfree.me/" target="_blank" class="btn-primary" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; text-decoration: none;">🔗 Live Site</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="slider-container">
+                    <a href="#gallery-iot" class="slider-img-link"><img src="IOT/coin_sorting.jpg" loading="lazy" alt="IoT Coin Sorter Hardware"></a>
+                </div>
+                <p class="slider-hint">Tap image to expand</p>
+
+                <div>
+                    <h3>IoT Coin Sorting & Counting Machine</h3>
+                    <p>An IoT-based hardware engineering project designed to automate the physical sorting and digital counting of coins utilizing custom sensors, precise microcontroller programming, and real-time data tracking.</p>
+                </div>
+                <p style="margin-top: 20px; font-weight: 600; font-size: 0.8rem; color: var(--accent);">C++ • Arduino • IoT Sensors • Electronics</p>
+                
+                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="#" class="btn-outline" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; text-decoration: none;"><i class="devicon-github-original" style="color: var(--accent);"></i> Repository</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="slider-container">
+                    <a href="#gallery-iread" class="slider-img-link"><img src="iread/login.png" loading="lazy" alt="Login"></a>
+                    <a href="#gallery-iread" class="slider-img-link"><img src="iread/admin/admin dashboard/admin dashboard.png" loading="lazy" alt="Admin Dashboard"></a>
+                    <a href="#gallery-iread" class="slider-img-link"><img src="iread/faculty/faculty dashboard/faculty dashboard view.png" loading="lazy" alt="Faculty Dashboard"></a>
+                    <a href="#gallery-iread" class="slider-img-link"><img src="iread/student/student dashboard/student dashboard.png" loading="lazy" alt="Student Dashboard"></a>
+                    <a href="#gallery-iread" class="slider-img-link"><img src="iread/superadmin/Manage Uers/manage user view.png" loading="lazy" alt="Manage Users"></a>
+                    <a href="#gallery-iread" class="slider-img-link"><img src="iread/superadmin/Manage Staffs/manage staffs view.png" loading="lazy" alt="Manage Staffs"></a>
+                    <a href="#gallery-iread" class="slider-img-link"><img src="iread/superadmin/Report Generator/report generator view.png" loading="lazy" alt="Reports"></a>
+                </div>
+                <p class="slider-hint">Tap any image to view all 110+ screenshots</p>
+
+                <div>
+                    <h3>iRead Archive System</h3>
+                    <p>Secure web-based storage repository for academic researches. Features custom alumni approval flows, automated PDF generation, multimedia viewing, and disabled text selection to protect intellectual property.</p>
+                </div>
+                <p style="margin-top: 20px; font-weight: 600; font-size: 0.8rem; color: var(--accent);">Laravel • PHP • MySQL • CSS • HTML</p>
+                
+                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="#" class="btn-outline" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; text-decoration: none;"><i class="devicon-github-original" style="color: var(--accent);"></i> Repository</a>
+                    <a href="#" class="btn-primary" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; text-decoration: none;">🔗 Live Site</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="slider-container">
+                    <a href="#gallery-tel" class="slider-img-link"><img src="Tel/homepage.png" loading="lazy" alt="Homepage"></a>
+                    <a href="#gallery-tel" class="slider-img-link"><img src="Tel/dashboard.png" loading="lazy" alt="Dashboard"></a>
+                    <a href="#gallery-tel" class="slider-img-link"><img src="Tel/emergency.png" loading="lazy" alt="Emergency Directory"></a>
+                </div>
+                <p class="slider-hint">Tap any image to view gallery</p>
+
+                <div>
+                    <h3>Telephone Directory System</h3>
+                    <p>Complete CRUD application for managing telecommunication data. Features integrated Excel import/export functionality and advanced search capabilities for efficient, large-scale data handling.</p>
+                </div>
+                <p style="margin-top: 20px; font-weight: 600; font-size: 0.8rem; color: var(--accent);">CodeIgniter 4 • PHP • Bootstrap • jQuery</p>
+                
+                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="#" class="btn-outline" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; text-decoration: none;"><i class="devicon-github-original" style="color: var(--accent);"></i> Repository</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="slider-container">
+                    <a href="#gallery-warehouse" class="slider-img-link"><img src="Warehouse/dashboard.png" loading="lazy" alt="Dashboard"></a>
+                    <a href="#gallery-warehouse" class="slider-img-link"><img src="Warehouse/masterlist.png" loading="lazy" alt="Masterlist"></a>
+                    <a href="#gallery-warehouse" class="slider-img-link"><img src="Warehouse/mainstock_monitor.png" loading="lazy" alt="Mainstock Monitor"></a>
+                </div>
+                <p class="slider-hint">Tap any image to view all 20 screenshots</p>
+
+                <div>
+                    <h3>Inventory Management System</h3>
+                    <p>Automated inventory and request tracking platform designed to digitize operational workflows. Built with a secure authentication system featuring multi-role access, QR code scanning for receiving/deducting, and comprehensive audit logs.</p>
+                </div>
+                <p style="margin-top: 20px; font-weight: 600; font-size: 0.8rem; color: var(--accent);">PHP • MySQL • HTML/CSS</p>
+                
+                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="#" class="btn-outline" style="padding: 6px 12px; font-size: 0.85rem; border-radius: 6px; text-decoration: none;"><i class="devicon-github-original" style="color: var(--accent);"></i> Repository</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="experience" class="animate-load delay-3" style="padding-top: 40px;">
+        <h2 class="section-title">Experience & Leadership</h2>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <div class="experience-header">
+                    <h3 class="experience-role">Program Facilitator</h3>
+                    <span class="experience-date">2025 – 2026</span>
+                </div>
+                <h4 class="experience-company">2nd PMFC CriPreLD / SCPC</h4>
+                <ul class="experience-details">
+                    <li>Served as a Facilitator (2026) after successfully completing the program as a participating cadet (2025).</li>
+                    <li>Assisted in guiding teams through structured problem-solving scenarios and activities.</li>
+                    <li>Developed strong active communication and coordination skills essential for collaborative environments.</li>
+                </ul>
+                <div class="slider-container">
+                    <a href="#gallery-scpc" class="slider-img-link"><img src="SCPC/Nametag.jpg" loading="lazy" alt="Nametag"></a>
+                    <a href="#gallery-scpc" class="slider-img-link"><img src="SCPC/SCPC_CERT_CADET.jpeg" loading="lazy" alt="SCPC Certificate"></a>
+                    <a href="#gallery-scpc" class="slider-img-link"><img src="SCPC/SCPC_lecture.JPG" loading="lazy" alt="SCPC Lecture"></a>
+                    <a href="#gallery-scpc" class="slider-img-link"><img src="SCPC/SCPC_LECTURE1.JPG" loading="lazy" alt="SCPC Lecture 1"></a>
+                    <a href="#gallery-scpc" class="slider-img-link"><img src="SCPC/SCPC_mr_and_mrs_SCPC.jpeg" loading="lazy" alt="Mr and Mrs SCPC"></a>
+                    <a href="#gallery-scpc" class="slider-img-link"><img src="SCPC/SCPC_Participants.png" loading="lazy" alt="Participants"></a>
+                    <a href="#gallery-scpc" class="slider-img-link"><img src="SCPC/with_tarp.jpeg" loading="lazy" alt="With Tarp"></a>
+                </div>
+                <p class="slider-hint">Tap any image to view all 12 photos</p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="experience-header">
+                    <h3 class="experience-role">Library Student Assistant (320-Hour OJT)</h3>
+                    <span class="experience-date">2025</span>
+                </div>
+                <h4 class="experience-company">Panpacific University Library</h4>
+                <ul class="experience-details">
+                    <li>Encoded inventory records, including book codes and classifications, for catalog accuracy.</li>
+                    <li>Assisted students and faculty in locating academic resources and research archives.</li>
+                </ul>
+                
+                <div style="margin-bottom: 25px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <a href="#modal-ojt-cert" class="btn-outline" style="padding: 6px 14px; font-size: 0.85rem; border-radius: 6px; text-decoration: none;">📜 View Practicum Cert</a>
+                </div>
+
+                <div class="slider-container">
+                    <a href="#gallery-library" class="slider-img-link"><img src="OJT/OJT_Library_0.jpg" loading="lazy" alt="Library Activity"></a>
+                    <a href="#gallery-library" class="slider-img-link"><img src="OJT/OJT_Library_01.jpg" loading="lazy" alt="Library Activity"></a>
+                    <a href="#gallery-library" class="slider-img-link"><img src="OJT/OJT_Library_id.jpg" loading="lazy" alt="OJT ID"></a>
+                </div>
+                <p class="slider-hint">Tap any image to view full gallery</p>
+            </div>
+
+            <div class="timeline-item">
+                <div class="experience-header">
+                    <h3 class="experience-role">Work Immersion Student</h3>
+                    <span class="experience-date">2023</span>
+                </div>
+                <h4 class="experience-company">Bureau of Fire Protection (BFP)</h4>
+                <ul class="experience-details">
+                    <li>Completed rigorous hands-on training in first aid, emergency response, and fire safety equipment.</li>
+                    <li>Demonstrated strict discipline and adherence to safety protocols in high-pressure environments.</li>
+                </ul>
+                <div class="slider-container">
+                    <a href="#gallery-immersion" class="slider-img-link"><img src="immersion/immersion.jpg" loading="lazy" alt="BFP Immersion"></a>
+                    <a href="#gallery-immersion" class="slider-img-link"><img src="immersion/immersion_3.jpg" loading="lazy" alt="BFP Immersion"></a>
+                    <a href="#gallery-immersion" class="slider-img-link"><img src="immersion/immersion_10.png" loading="lazy" alt="BFP Immersion"></a>
+                </div>
+                <p class="slider-hint">Tap any image to view full gallery</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="certifications" class="animate-load delay-4" style="padding-top: 40px;">
+        <h2 class="section-title">Certifications</h2>
+        
+        <input type="radio" id="filter-all" class="cert-radio" name="cert-filter" checked>
+        <input type="radio" id="filter-dev" class="cert-radio" name="cert-filter">
+        <input type="radio" id="filter-net" class="cert-radio" name="cert-filter">
+        <input type="radio" id="filter-it" class="cert-radio" name="cert-filter">
+        <input type="radio" id="filter-design" class="cert-radio" name="cert-filter">
+
+        <div class="filter-labels">
+            <label for="filter-all" class="filter-label">All</label>
+            <label for="filter-dev" class="filter-label">Software & Web</label>
+            <label for="filter-net" class="filter-label">Networking & Security</label>
+            <label for="filter-it" class="filter-label">IT Infrastructure</label>
+            <label for="filter-design" class="filter-label">UI/UX & Design</label>
+        </div>
+
+        <div class="grid">
+            <a href="#modal-python" class="card cert-item dev"><div><h3>Cisco: Python Essentials 2</h3><p>Networking Academy Programming Core</p></div></a>
+            <div class="card cert-item dev" style="cursor: default;"><div><h3>Responsive Web Design</h3><p style="color: var(--accent);">FreeCodeCamp (Pursuing)</p></div></div>
+
+            <a href="#modal-cyber" class="card cert-item net"><div><h3>Microsoft Cybersecurity</h3><p>Security, Compliance & Identity</p></div></a>
+            <a href="#modal-netbasics" class="card cert-item net"><div><h3>Cisco: Networking Basics</h3><p>Networking Academy Course</p></div></a>
+            <a href="#modal-netbadge" class="card cert-item net"><div><h3>Cisco: Networking Badge</h3><p>Verified Credential</p></div></a>
+            <a href="#modal-setupnet" class="card cert-item net"><div><h3>TESDA: Setting Up Networks</h3><p>Computer Systems Servicing</p></div></a>
+            <a href="#modal-maintnet" class="card cert-item net"><div><h3>TESDA: Maintaining Systems</h3><p>Maintaining Systems and Networks</p></div></a>
+            <a href="#modal-hack" class="card cert-item net"><div><h3>Hack Proof Your Network</h3><p>Cyber Defense Basics</p></div></a>
+
+            <a href="#modal-installconfig" class="card cert-item it"><div><h3>TESDA: CSS Core</h3><p>Installing and Configuring Systems</p></div></a>
+            <a href="#modal-setupservers" class="card cert-item it"><div><h3>TESDA: Setting Up Servers</h3><p>Computer Systems Servicing</p></div></a>
+            <a href="#modal-introtocss" class="card cert-item it"><div><h3>Intro to CSS</h3><p>Computer Systems Servicing</p></div></a>
+            <a href="#modal-itessentials" class="card cert-item it"><div><h3>Cisco: IT Essentials</h3><p>Networking Academy</p></div></a>
+            <a href="#modal-infra" class="card cert-item it"><div><h3>IT Infrastructure</h3><p>Infrastructure and Design</p></div></a>
+            <a href="#modal-troubleshoot" class="card cert-item it"><div><h3>Troubleshooting</h3><p>Troubleshooting a Slow Computer</p></div></a>
+            <a href="#modal-word" class="card cert-item it"><div><h3>Word Associate</h3><p>Microsoft Office Specialist</p></div></a>
+
+            <a href="#modal-ui" class="card cert-item design"><div><h3>UI Design</h3><p>Developing Designs for User Interface</p></div></a>
+            <a href="#modal-ux" class="card cert-item design"><div><h3>UX Design</h3><p>Developing Designs for User Experience</p></div></a>
+            <a href="#modal-visual" class="card cert-item design"><div><h3>Visual Graphic Design</h3><p>Introduction Course</p></div></a>
+            <a href="#modal-social" class="card cert-item design"><div><h3>Social Media Concepts</h3><p>Creating Concepts for Social Media</p></div></a>
+            <a href="#modal-booth" class="card cert-item design"><div><h3>Display Design</h3><p>Designing Booth and Product Window Display</p></div></a>
+            <a href="#modal-logo" class="card cert-item design"><div><h3>Logo Design</h3><p>Developing Designs for a Logo</p></div></a>
+            <a href="#modal-print" class="card cert-item design"><div><h3>Print Media</h3><p>Developing Designs for Print Media</p></div></a>
+            <a href="#modal-packaging" class="card cert-item design"><div><h3>Product Packaging</h3><p>Developing Designs for Product Packaging</p></div></a>
+            <a href="#modal-content-cert" class="card cert-item design"><div><h3>Content Creation</h3><p>Introduction to Content Creation</p></div></a>
+            <a href="#modal-propagate" class="card cert-item design"><div><h3>Propagating Content</h3><p>Digital Distribution</p></div></a>
+            <a href="#modal-translate" class="card cert-item design"><div><h3>Multimedia Contents</h3><p>Translating Concepts into Multimedia</p></div></a>
+        </div>
+    </section>
+
+    <section id="extracurricular" class="animate-load delay-5" style="padding-top: 40px; margin-bottom: 40px;">
+        <h2 class="section-title">Extracurricular Activities</h2>
+        
+        <div class="extra-card">
+            <div class="slider-container" style="margin-bottom: 20px;">
+                <a href="#gallery-mlbb" class="slider-img-link"><img src="MLBB/mlbb_cert_with_me.jpg" loading="lazy" alt="MLBB Player"></a>
+                <a href="#gallery-mlbb" class="slider-img-link"><img src="MLBB/mlbb_cert_with_team.jpeg" loading="lazy" alt="Team Photo"></a>
+                <a href="#gallery-mlbb" class="slider-img-link"><img src="MLBB/mlbb_cert.jpeg" loading="lazy" alt="MLBB Certificate"></a>
+            </div>
+            <p class="slider-hint" style="text-align: left; margin-top: -15px;">Tap to expand gallery</p>
+
+            <h3 class="extra-title">Esports Champion (Mobile Legends: Bang Bang)</h3>
+            <p class="extra-desc">Competed in and won local esports tournaments. This competitive environment honed my ability to make split-second strategic decisions, communicate effectively under high pressure, and collaborate seamlessly with a team to achieve a shared objective.</p>
+        </div>
+
+        <div class="extra-card">
+            <h3 class="extra-title">PC Assembly, Disassembly & Troubleshooting</h3>
+            <p class="extra-desc">Participated in hands-on technical challenges involving hardware assembly, diagnostics, and system troubleshooting. This practical experience solidified my understanding of physical IT infrastructure.</p>
+            <div style="margin-top: 15px;">
+                <a href="#modal-assembly" class="btn-outline" style="padding: 6px 14px; font-size: 0.85rem; border-radius: 6px; text-decoration: none;">📄 View Certificate</a>
+            </div>
+        </div>
+
+        <div class="extra-card">
+            <h3 class="extra-title">Quiz Bee Competition</h3>
+            <p class="extra-desc">Competed in an academic Quiz Bee, showcasing quick critical thinking, teamwork, and strong foundational knowledge in Information Technology.</p>
+            <div style="margin-top: 15px;">
+                <a href="#modal-quizbee" class="btn-outline" style="padding: 6px 14px; font-size: 0.85rem; border-radius: 6px; text-decoration: none;">📄 View Certificate</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="hobbies" class="animate-load delay-6" style="padding-top: 40px; margin-bottom: 40px;">
+        <h2 class="section-title">Interests & Hobbies</h2>
+        <div class="skills-wrapper">
+            <div class="skill-tag">Hardware Tinkering (IoT)</div>
+            <div class="skill-tag">Competitive Esports</div>
+            <div class="skill-tag">System Building</div>
+        </div>
+    </section>
+</div>
+
+<footer>
+    <p>&copy; 2026 Alexander Magbitang. Custom built with native HTML & CSS.</p>
+</footer>
+
+<div id="gallery-junkshop" class="modal">
+    <a href="#projects" class="modal-bg"></a>
+    <div class="gallery-modal-content">
+        <a href="#projects" class="close-btn">&times;</a>
+        <div class="gd-slider">
+            <div class="gd-slide"><img src="junkshop/dashboard.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="junkshop/inventory.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="junkshop/scraps.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="junkshop/transaction.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="junkshop/buy.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="junkshop/sell.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="junkshop/report.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="junkshop/user_management.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="junkshop/sidebar.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="junkshop/login.png" loading="lazy"></div>
+        </div>
+        <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">Swipe to view all</div>
+    </div>
+</div>
+
+<div id="gallery-warehouse" class="modal">
+    <a href="#projects" class="modal-bg"></a>
+    <div class="gallery-modal-content">
+        <a href="#projects" class="close-btn">&times;</a>
+        <div class="gd-slider">
+            <div class="gd-slide"><img src="Warehouse/dashboard.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/masterlist.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/mainstock_monitor.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/substock_monitor.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/monitor.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/qr_receiving_sub.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/qr_deduct_sub.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/request_form.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/request_verify.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/rack_loc_config.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/sub_loc_config.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/unit_setting.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/user_management.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/audit_logs.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/report.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/sidebar_compress.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/sidebar_profile.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/login.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/forgot.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Warehouse/reset.png" loading="lazy"></div>
+        </div>
+        <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">Swipe to view all</div>
+    </div>
+</div>
+
+<div id="gallery-tel" class="modal">
+    <a href="#projects" class="modal-bg"></a>
+    <div class="gallery-modal-content">
+        <a href="#projects" class="close-btn">&times;</a>
+        <div class="gd-slider">
+            <div class="gd-slide"><img src="Tel/homepage.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Tel/dashboard.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Tel/emergency.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Tel/general_directory.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Tel/import_export_excel.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Tel/group_setting.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="Tel/profile_setting.png" loading="lazy"></div>
+        </div>
+        <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">Swipe to view all</div>
+    </div>
+</div>
+
+<div id="gallery-iread" class="modal">
+    <a href="#projects" class="modal-bg"></a>
+    <div class="gallery-modal-content">
+        <a href="#projects" class="close-btn">&times;</a>
+        <div class="gd-slider">
+            <div class="gd-slide"><img src="iread/login.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/activity log/act log view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/activity log/search user name.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/activity log/select actions.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/activity log/select date from.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/activity log/select date to.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/admin dashboard/admin dashboard 2.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/admin dashboard/admin dashboard.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/alumni request/accept alumni.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/alumni request/alumini req. view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/alumni request/reject alumni.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/archive researches/archive research view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/archive researches/restore archive.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/archive researches/view button.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/create new user/create account.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/create new user/create new user view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/create new user/enter email account.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/create new user/enter full name.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/create new user/select role.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/create new user/set password.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/feedback/feedback notifications.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/feedback/submit feedback.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/feedback inbox/feedback view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/feedback inbox/mark resolved.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/feedback inbox/view full details.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/report generator/download excel.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/report generator/download pdf.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/report generator/excel result.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/report generator/pdf result.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/report generator/report gen. view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/report generator/select date from.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/report generator/select date to.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/research approval/accept thesis.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/research approval/reject thesis.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/research approval/research approval view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/research approval/review thesis button.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/research approval/review thesis view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/research archives/research archive view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/research archives/search author.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/research archives/search title.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/research archives/select categories.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/top reads/top reads view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/top saved/top saved view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/add link.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/enter authors.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/enter project title.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/put description.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/select proj. categories.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/select template.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/select year.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/submit project.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/upload pdf.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/upload project view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/admin/upload project/upload template.png" loading="lazy"></div>
+            
+            <div class="gd-slide"><img src="iread/faculty/faculty dashboard/faculty dashboard view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/my uploads/my uplaod view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/reading list/my shelf when i open it.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/reading list/reading list view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/add description.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/add link.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/enter author.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/enter project title.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/select categories.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/select template.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/select year.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/submit to review.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/upload pdf.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/upload proj view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/faculty/upload research/upload template.png" loading="lazy"></div>
+            
+            <div class="gd-slide"><img src="iread/student/my upload/my upload view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/my upload/uploaded view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/reading list/archive details view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/reading list/reading list view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/reading list/remove from list.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/reading list/restricted access.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/student dashboard/student dashboard.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/add link.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/enter author.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/enter title.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/put description.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/select categories.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/select template.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/select year.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/submit research.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/upload pdf.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/upload research view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/student/upload research/upload template.png" loading="lazy"></div>
+            
+            <div class="gd-slide"><img src="iread/superadmin/Activity Logs/activity log view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Activity Logs/search user.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Activity Logs/select actions.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Activity Logs/select date from.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Activity Logs/select date to.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Add New Staff/create new staff.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Add New Staff/create staff account.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Add New Staff/email address.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Add New Staff/enter full name.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Add New Staff/select role.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Add New Staff/set password.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Alumni Verification/alumni approved.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Alumni Verification/alumni reject application.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Alumni Verification/Alumni ver. view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Archive Researches/archive details.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Archive Researches/archived view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Archive Researches/delete archive.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Archive Researches/mark all.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Archive Researches/mark.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Archive Researches/restore to system button.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Archive Researches/send feedback.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Archive Researches/view project details button.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Audit Logs/audit log view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Audit Logs/filtered log.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Audit Logs/search description.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Audit Logs/select action types.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Audit Logs/set date from.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Audit Logs/set date to.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Feedback/feedback notif..png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Feedback/feedback view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Feedback/submit feedback.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Staffs/deactivate staff acc.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Staffs/edit staff name & role.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Staffs/manage staffs view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Staffs/manual reset password.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Staffs/send reset link.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Uers/alumni users.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Uers/edit username.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Uers/manage user view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Uers/manual reset password.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Uers/revoke account.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Uers/search name or email account.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Uers/send reset link.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Manage Uers/students users.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Most Reads/most read view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Most Saved/most saved view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Report Generator/excel data.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Report Generator/pdf data.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Report Generator/report generator view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Report Generator/seccussfully downloaded excel.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Report Generator/set date from.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Report Generator/set date to.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Report Generator/successfully downloaded pdf.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Approval/accept button.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Approval/reject button.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Approval/research approval view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Approval/review thesis button.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Approval/review thesis view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Archives/research view buttons.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Archives/research view sort category.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Archives/research view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Archives/search author.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Archives/search title.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Research Archives/search year.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Security Logs/filtered results.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Security Logs/search email or ip address.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Security Logs/security logs view.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Security Logs/select statuses.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Security Logs/set date from.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Security Logs/set date to.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/add description.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/add link.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/add new project.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/attach pdf files.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/enter authors.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/enter thesis title.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/select project categories.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/select template.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/select year.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/submit project.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Project/upload template.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Settings/hide category.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Settings/rename category.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Settings/search category.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Settings/set category name.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Settings/show category.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="iread/superadmin/Upload Settings/upload settings view.png" loading="lazy"></div>
+        </div>
+        <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">Swipe to view all</div>
+    </div>
+</div>
+
+<div id="gallery-iot" class="modal">
+    <a href="#projects" class="modal-bg"></a>
+    <div class="gallery-modal-content">
+        <a href="#projects" class="close-btn">&times;</a>
+        <div class="gd-slider">
+            <div class="gd-slide"><img src="IOT/coin_sorting.jpg" loading="lazy"></div>
+        </div>
+        <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">Swipe to view all</div>
+    </div>
+</div>
+
+<div id="gallery-scpc" class="modal">
+    <a href="#experience" class="modal-bg"></a>
+    <div class="gallery-modal-content">
+        <a href="#experience" class="close-btn">&times;</a>
+        <div class="gd-slider">
+            <div class="gd-slide"><img src="SCPC/Nametag.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/SCPC_CERT_CADET.jpeg" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/SCPC_lecture.JPG" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/SCPC_LECTURE1.JPG" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/SCPC_mr_and_mrs_SCPC.jpeg" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/SCPC_Participants.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/SCPC_Participants(1).png" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/SCPC_PUSH_UP.JPG" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/SCPC_stage.JPG" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/SCPC_TALENT.jpeg" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/SCPS_bravo.jpeg" loading="lazy"></div>
+            <div class="gd-slide"><img src="SCPC/with_tarp.jpeg" loading="lazy"></div>
+        </div>
+        <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">Swipe to view all</div>
+    </div>
+</div>
+
+<div id="gallery-library" class="modal">
+    <a href="#experience" class="modal-bg"></a>
+    <div class="gallery-modal-content">
+        <a href="#experience" class="close-btn">&times;</a>
+        <div class="gd-slider">
+            <div class="gd-slide"><img src="OJT/OJT_Library_0.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="OJT/OJT_Library_01.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="OJT/OJT_Library_04.jpeg" loading="lazy"></div>
+            <div class="gd-slide"><img src="OJT/OJT_Library_05.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="OJT/OJT_library_1.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="OJT/OJT_Library_3.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="OJT/OJT_Library_4.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="OJT/OJT_Library_id.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="OJT/OJT_library.jpg" loading="lazy"></div>
+        </div>
+        <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">Swipe to view all</div>
+    </div>
+</div>
+
+<div id="gallery-immersion" class="modal">
+    <a href="#experience" class="modal-bg"></a>
+    <div class="gallery-modal-content">
+        <a href="#experience" class="close-btn">&times;</a>
+        <div class="gd-slider">
+            <div class="gd-slide"><img src="immersion/immersion.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="immersion/immersion_3.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="immersion/immersion_4.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="immersion/immersion_5.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="immersion/immersion_6.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="immersion/immersion_10.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="immersion/immersion_11.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="immersion/immersion_12.jpg" loading="lazy"></div>
+        </div>
+        <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">Swipe to view all</div>
+    </div>
+</div>
+
+<div id="gallery-mlbb" class="modal">
+    <a href="#extracurricular" class="modal-bg"></a>
+    <div class="gallery-modal-content">
+        <a href="#extracurricular" class="close-btn">&times;</a>
+        <div class="gd-slider">
+            <div class="gd-slide"><img src="MLBB/mlbb_cert_with_me.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="MLBB/mlbb_cert_with_team.jpeg" loading="lazy"></div>
+            <div class="gd-slide"><img src="MLBB/mlbb_cert.jpeg" loading="lazy"></div>
+            <div class="gd-slide"><img src="MLBB/mlbb_cert.png" loading="lazy"></div>
+            <div class="gd-slide"><img src="MLBB/mlbb_online_tourna.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="MLBB/MLBB_STAGE.JPG" loading="lazy"></div>
+            <div class="gd-slide"><img src="MLBB/ONLINE_CERT_01.jpg" loading="lazy"></div>
+            <div class="gd-slide"><img src="MLBB/ONLINE_TOURNA_03.jpg" loading="lazy"></div>
+        </div>
+        <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: rgba(255,255,255,0.7); font-size: 0.8rem; pointer-events: none;">Swipe to view all</div>
+    </div>
+</div>
+<div id="modal-assembly" class="modal">
+    <a href="#extracurricular" class="modal-bg"></a>
+    <div class="modal-content">
+        <a href="#extracurricular" class="close-btn">&times;</a>
+        <iframe class="cert-frame" src="ExtraActivity/assembly_disassembly_troubleshooting.pdf#toolbar=0"></iframe>
+    </div>
+</div>
+<div id="modal-quizbee" class="modal">
+    <a href="#extracurricular" class="modal-bg"></a>
+    <div class="modal-content">
+        <a href="#extracurricular" class="close-btn">&times;</a>
+        <iframe class="cert-frame" src="ExtraActivity/quizbee.pdf#toolbar=0"></iframe>
+    </div>
+</div>
+<div id="modal-ojt-cert" class="modal">
+    <a href="#experience" class="modal-bg"></a>
+    <div class="modal-content">
+        <a href="#experience" class="close-btn">&times;</a>
+        <img class="cert-image-fit" src="OJT/practicum_cert.png" alt="Practicum Certificate">
+    </div>
+</div>
+<div id="modal-resume" class="modal">
+    <a href="#" class="modal-bg"></a>
+    <div class="modal-content">
+        <a href="#" class="close-btn">&times;</a>
+        <div class="modal-header">
+            <h3 style="margin: 0; font-size: 1.5rem; font-weight: 800;">My Resume</h3>
+            <a href="resume/resume.pdf" download="Alexander_Magbitang_Resume.pdf" class="btn-primary" style="padding: 10px 20px; border-radius: 6px; font-size: 0.95rem; text-decoration: none;">Download PDF</a>
+        </div>
+        <iframe class="cert-frame" src="resume/resume.pdf#toolbar=0"></iframe>
+    </div>
+</div>
