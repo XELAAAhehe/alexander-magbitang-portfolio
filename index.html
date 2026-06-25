@@ -8,7 +8,10 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 
     <style>
-        /* --- ORIGINAL MINIMALIST COLOR PALETTE --- */
+/* ========================================= */
+/* MODAL POPUP CSS                           */
+/* ========================================= */
+/* --- ORIGINAL MINIMALIST COLOR PALETTE --- */
         :root {
             --bg: #fafafa;
             --surface: #ffffff;
@@ -183,38 +186,89 @@
         #filter-net:checked ~ .grid .cert-item:not(.net),
         #filter-design:checked ~ .grid .cert-item:not(.design),
         #filter-it:checked ~ .grid .cert-item:not(.it) { display: none; }
+	
+	/* ========================================= */
+/* CERTIFICATE MODAL POPUP CSS               */
+/* ========================================= */
 
-        /* --- STANDARD MODALS (Resumes & Certs) --- */
-        .modal {
-            opacity: 0; visibility: hidden;
-            position: fixed; z-index: 1000;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s ease;
-        }
-        .modal:target { opacity: 1; visibility: visible; }
-        .modal-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: default; }
+.cert-modal {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
 
-        .modal-content {
-            position: relative; width: 90%; max-width: 900px; height: 85vh;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; padding: 40px 15px 15px 15px; box-shadow: 0 25px 50px rgba(0,0,0,0.1);
-            z-index: 1001; display: flex; flex-direction: column;
-        }
+.cert-modal:target {
+    visibility: visible;
+    opacity: 1;
+}
 
-        .close-btn {
-            position: absolute; top: 10px; right: 20px;
-            color: var(--text-muted); font-size: 32px; font-weight: normal;
-            text-decoration: none; transition: color 0.2s ease; line-height: 1;
-        }
-        .close-btn:hover { color: var(--accent); }
+/* 
+ * By adding .cert-modal in front, we guarantee this dark styling 
+ * only applies to certificates and won't break your resume modals! 
+ */
+.cert-modal .modal-content {
+    background: #1e1e1e;
+    width: 95%;
+    max-width: 1000px;
+    height: 92vh;
+    padding: 20px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,.7);
+    display: block; /* Overrides original flex setting */
+}
 
-        .cert-frame { width: 100%; flex-grow: 1; border: none; border-radius: 8px; background: #ffffff; }
-        .cert-image-fit { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-right: 30px; }
+/* Forces the red circle button specifically for certs */
+.cert-modal .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #e74c3c;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    z-index: 10000;
+    transition: background 0.2s ease;
+}
 
+.cert-modal .close-btn:hover {
+    background: #c0392b;
+    color: white; /* Prevents text from turning black on hover */
+}
+
+.cert-modal .modal-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+    user-select: none;
+    pointer-events: auto;
+}
+
+.cert-modal .modal-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: auto;
+}
         /* --- "GOOGLE DRIVE" STYLE FULLSCREEN GALLERY MODALS --- */
         .gallery-modal-content {
             position: relative; width: 100%; height: 100%;
@@ -258,7 +312,7 @@
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
             <a href="#experience">Experience</a>
-            <a href="#certifications">Certifications</a>
+            <a href="#!">Certifications</a>
             <a href="#extracurricular">Activities</a>
         </div>
     </div>
@@ -513,7 +567,21 @@
 
         <div class="grid">
             <a href="#modal-python" class="card cert-item dev"><div><h3>Cisco: Python Essentials 2</h3><p>Networking Academy Programming Core</p></div></a>
-            <div class="card cert-item dev" style="cursor: default;"><div><h3>Responsive Web Design</h3><p style="color: var(--accent);">FreeCodeCamp (Pursuing)</p></div></div>
+            <a href="#modal-fcc-rwd" class="card cert-item dev"><div><h3>Responsive Web Design</h3><p>FreeCodeCamp</p></div></a>
+            <a href="#modal-fcc-js" class="card cert-item dev"><div><h3>JavaScript Algorithms</h3><p>FreeCodeCamp</p></div></a>
+            <a href="#modal-fcc-py" class="card cert-item dev"><div><h3>Scientific Computing with Python</h3><p>FreeCodeCamp</p></div></a>
+            <a href="#modal-solo-html" class="card cert-item dev"><div><h3>Introduction to HTML</h3><p>SoloLearn</p></div></a>
+            <a href="#modal-solo-css" class="card cert-item dev"><div><h3>Introduction to CSS</h3><p>SoloLearn</p></div></a>
+            <a href="#modal-kag-sql" class="card cert-item dev"><div><h3>Intro to SQL</h3><p>Kaggle</p></div></a>
+            <a href="#modal-kag-advsql" class="card cert-item dev"><div><h3>Advanced SQL</h3><p>Kaggle</p></div></a>
+            <a href="#modal-kag-prog" class="card cert-item dev"><div><h3>Intro to Programming</h3><p>Kaggle</p></div></a>
+            <a href="#modal-kag-python" class="card cert-item dev"><div><h3>Python</h3><p>Kaggle</p></div></a>
+            <a href="#modal-kag-introml" class="card cert-item dev"><div><h3>Intro to Machine Learning</h3><p>Kaggle</p></div></a>
+            <a href="#modal-kag-interml" class="card cert-item dev"><div><h3>Intermediate Machine Learning</h3><p>Kaggle</p></div></a>
+            <a href="#modal-kag-dl" class="card cert-item dev"><div><h3>Intro to Deep Learning</h3><p>Kaggle</p></div></a>
+            <a href="#modal-kag-gameai" class="card cert-item dev"><div><h3>Intro to Game AI & RL</h3><p>Kaggle</p></div></a>
+            <a href="#modal-kag-aiethics" class="card cert-item dev"><div><h3>Intro to AI Ethics</h3><p>Kaggle</p></div></a>
+            <a href="#modal-kag-mlexplain" class="card cert-item dev"><div><h3>Machine Learning Explainability</h3><p>Kaggle</p></div></a>
 
             <a href="#modal-cyber" class="card cert-item net"><div><h3>Microsoft Cybersecurity</h3><p>Security, Compliance & Identity</p></div></a>
             <a href="#modal-netbasics" class="card cert-item net"><div><h3>Cisco: Networking Basics</h3><p>Networking Academy Course</p></div></a>
@@ -524,7 +592,7 @@
 
             <a href="#modal-installconfig" class="card cert-item it"><div><h3>TESDA: CSS Core</h3><p>Installing and Configuring Systems</p></div></a>
             <a href="#modal-setupservers" class="card cert-item it"><div><h3>TESDA: Setting Up Servers</h3><p>Computer Systems Servicing</p></div></a>
-            <a href="#modal-introtocss" class="card cert-item it"><div><h3>Intro to CSS</h3><p>Computer Systems Servicing</p></div></a>
+            <a href="#modal-introtocss" class="card cert-item it"><div><h3>Intro to CSS (2025)</h3><p>Computer Systems Servicing</p></div></a>
             <a href="#modal-itessentials" class="card cert-item it"><div><h3>Cisco: IT Essentials</h3><p>Networking Academy</p></div></a>
             <a href="#modal-infra" class="card cert-item it"><div><h3>IT Infrastructure</h3><p>Infrastructure and Design</p></div></a>
             <a href="#modal-troubleshoot" class="card cert-item it"><div><h3>Troubleshooting</h3><p>Troubleshooting a Slow Computer</p></div></a>
@@ -542,6 +610,9 @@
             <a href="#modal-propagate" class="card cert-item design"><div><h3>Propagating Content</h3><p>Digital Distribution</p></div></a>
             <a href="#modal-translate" class="card cert-item design"><div><h3>Multimedia Contents</h3><p>Translating Concepts into Multimedia</p></div></a>
         </div>
+
+        
+
     </section>
 
     <section id="extracurricular" class="animate-load delay-5" style="padding-top: 40px; margin-bottom: 40px;">
@@ -963,3 +1034,162 @@
         <iframe class="cert-frame" src="resume/resume.pdf#toolbar=0"></iframe>
     </div>
 </div>
+<div id="modal-python" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2025/Python_Essentials_2_certificate_alexander-magbitang-ecoast-panpacificu-edu-ph_84bdac85-f5f5-4bea-9df4-3a1919fb617f.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-fcc-rwd" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="freecodecamp/responsive_web_design.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-fcc-js" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="freecodecamp/Javascript_Cert.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-fcc-py" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="freecodecamp/Python Cert.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-solo-html" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="sololearn/Introduction_to_HTML.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-solo-css" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="sololearn/Introduction to CSS.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-kag-sql" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="kraggle/Intro to SQL.png" alt="SQL" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-kag-advsql" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="kraggle/Advanced SQL.png" alt="Adv SQL" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-kag-prog" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="kraggle/Intro to Programming.png" alt="Prog" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-kag-python" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="kraggle/Python.png" alt="Python" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-kag-introml" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="kraggle/Intro to Machine Learning.png" alt="ML" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-kag-interml" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="kraggle/Intermediate Machine Learning.png" alt="Inter ML" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-kag-dl" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="kraggle/Intro to Deep Learning.png" alt="DL" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-kag-gameai" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="kraggle/Intro to Game AI and Reinforcement Learning.png" alt="Game AI" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-kag-aiethics" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="kraggle/Intro to AI Ethics.png" alt="AI Ethics" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-kag-mlexplain" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="kraggle/Machine Learning Explainability.png" alt="ML Explain" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-cyber" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Microsoft Cybersecurity Course_ Security, Compliance, and Identity Fundamentals.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-netbasics" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2025/Networking_Basics_certificate_alexander-magbitang-ecoast-panpacificu-edu-ph_dd0a8163-e3b1-43cb-8627-a42b4dadd60a.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-netbadge" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2025/Networking_Basics_Badge20241027-7-lhvf7p.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-setupnet" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2025/Setting Up Computer Networks.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-maintnet" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2025/Maintaining Computer System and Networks.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-hack" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="2026/Hackproof Your network security.png" alt="Hackproof" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-installconfig" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2025/Installing and Configuring Computer Systems.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-setupservers" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2025/Setting Up Computer Servers.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-introtocss" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2025/Introduction to CSS.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-itessentials" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2025/IT_Essentials_certificate_alexander-magbitang-ecoast-panpacificu-edu-ph_610ce9e8-e83b-4cc5-b4e9-de961ae6863c.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-infra" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="2026/IT Infrastructure and Design.png" alt="Infra" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-troubleshoot" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <img src="2026/Troubleshooting a slow computer.png" alt="Troubleshoot" style="width: 100%; height: auto;">
+</div></div>
+
+<div id="modal-word" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Word Associate.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-ui" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Developing Designs for User Interface.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-ux" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Developing Designs for User Experience.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-visual" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Introduction to Visual Graphic Design.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-social" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Creating Concepts for Social Media.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-booth" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Designing Booth and Product_Window Display.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-logo" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Developing Designs for a Logo.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-print" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Developing Designs for Print Media.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-packaging" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Developing Designs for Product Packaging.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-content-cert" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Introduction to Content Creation.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-propagate" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Propagating Content.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
+
+<div id="modal-translate" class="cert-modal"><div class="modal-content"><a href="#!" class="close-btn">&times;</a>
+    <iframe src="2026/Translating Concepts into Multimedia Contents.pdf#toolbar=0&navpanes=0&scrollbar=1" width="100%" height="100%" loading="lazy" oncontextmenu="return false;"></iframe>
+</div></div>
