@@ -313,15 +313,16 @@ input[type="radio"].cert-radio { display: none; }
     padding: 20px;
     border-radius: 12px;
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,.7);
     
-    /* Flexbox applied here perfectly centers images and iframes */
+    /* FIX 1: Allow the modal to scroll vertically if the image is tall */
+    overflow-y: auto; 
+    overflow-x: hidden;
+    
+    box-shadow: 0 10px 30px rgba(0,0,0,.7);
     display: flex; 
     justify-content: center;
     align-items: center;
 }
-
 .cert-modal .close-btn {
     position: absolute;
     top: 12px;
@@ -357,13 +358,12 @@ input[type="radio"].cert-radio { display: none; }
 
 .cert-modal .modal-content img {
     width: 100%;
-    height: 100%;
-    object-fit: contain; 
     
-    /* Margin auto helps lock the image perfectly in the center */
+    /* FIX 2: Change height from 100% to auto so it can expand and be scrollable */
+    height: auto; 
+    
     display: block;
     margin: auto;
-    
     border-radius: 8px;
     user-select: none;
     -webkit-user-drag: none;
